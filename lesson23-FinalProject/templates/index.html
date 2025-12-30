@@ -1,0 +1,103 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Weather Conditions</title>
+    <link href="{{url_for('static', filename='styles/style.css')}}" rel = "stylesheet"/>
+</head>
+<body>
+    <h1>Get Weather Conditions</h1>
+    <form action="/weather">
+        <input type="text" name="city" id="city" placeholder="Enter a city."/>
+        <button type="submit">submit</button>
+    </form>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Finder - Get Current Weather</title>
+    <link href="{{url_for('static', filename='styles/style.css')}}" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="weather-card">
+            <div class="header">
+                <svg class="weather-icon-main" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <h1>Weather Finder</h1>
+                <p class="subtitle">Discover weather conditions around the world</p>
+            </div>
+
+            {% if error %}
+                <div class="error-message">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span>{{ error }}</span>
+                </div>
+            {% endif %}
+
+            <form action="/weather" method="get" class="search-form">
+                <div class="input-wrapper">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <input 
+                        type="text" 
+                        name="city" 
+                        id="city" 
+                        placeholder="Enter city name (e.g., London, Tokyo, New York)"
+                        autocomplete="off"
+                        required
+                        autofocus
+                    />
+                </div>
+                <button type="submit" class="submit-btn">
+                    <span>Get Weather</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </form>
+
+            <div class="popular-cities">
+                <p class="popular-title">Popular Cities:</p>
+                <div class="city-tags">
+                    <a href="/weather?city=London" class="city-tag">London</a>
+                    <a href="/weather?city=New York" class="city-tag">New York</a>
+                    <a href="/weather?city=Tokyo" class="city-tag">Tokyo</a>
+                    <a href="/weather?city=Paris" class="city-tag">Paris</a>
+                    <a href="/weather?city=Dubai" class="city-tag">Dubai</a>
+                    <a href="/weather?city=Sydney" class="city-tag">Sydney</a>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Powered by OpenWeatherMap API</p>
+        </footer>
+    </div>
+</body>
+</html>

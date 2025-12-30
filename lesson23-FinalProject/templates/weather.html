@@ -1,0 +1,230 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} Weather</title>
+    <link href="{{url_for('static', filename='styles/style.css')}}" rel = "stylesheet"/>
+</head>
+<body>
+    <h1>{{ title }} Weather</h1>
+    <p>{{ status }} and {{ temp }} &deg;</p>
+    <p>Feels like {{ feels_like }} &deg;</p>
+
+
+    <form action="/weather">
+        <input type="text" name="city" id="city" placeholder="Enter a city."/>
+        <button type="submit">submit</button>
+    </form>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Weather Conditions</title>
+    <link href="{{url_for('static', filename='styles/style.css')}}" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="weather-page">
+    <div class="container">
+        <div class="weather-card weather-result">
+            <a href="/" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span>Back to Search</span>
+            </a>
+
+            <div class="location-header">
+                <div class="location-badge">
+                    <svg class="location-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <h1 class="city-name">{{ title }}</h1>
+                </div>
+            </div>
+
+            <div class="weather-main">
+                <div class="weather-icon-display">
+                    {% set condition_lower = status.lower() %}
+                    {% if 'clear' in condition_lower or 'sunny' in condition_lower %}
+                        <svg class="weather-icon sunny" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    {% elif 'cloud' in condition_lower %}
+                        <svg class="weather-icon cloudy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                        </svg>
+                    {% elif 'rain' in condition_lower or 'drizzle' in condition_lower %}
+                        <svg class="weather-icon rainy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="16" y1="13" x2="16" y2="21"></line>
+                            <line x1="8" y1="13" x2="8" y2="21"></line>
+                            <line x1="12" y1="15" x2="12" y2="23"></line>
+                            <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path>
+                        </svg>
+                    {% elif 'snow' in condition_lower %}
+                        <svg class="weather-icon snowy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"></path>
+                            <line x1="8" y1="16" x2="8.01" y2="16"></line>
+                            <line x1="8" y1="20" x2="8.01" y2="20"></line>
+                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                            <line x1="12" y1="22" x2="12.01" y2="22"></line>
+                            <line x1="16" y1="16" x2="16.01" y2="16"></line>
+                            <line x1="16" y1="20" x2="16.01" y2="20"></line>
+                        </svg>
+                    {% elif 'thunder' in condition_lower or 'storm' in condition_lower %}
+                        <svg class="weather-icon stormy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9"></path>
+                            <polyline points="13 11 9 17 15 17 11 23"></polyline>
+                        </svg>
+                    {% else %}
+                        <svg class="weather-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                        </svg>
+                    {% endif %}
+                </div>
+
+                <div class="temperature-display">
+                    <div class="main-temp">
+                        <span class="temp-value">{{ temp }}</span>
+                        <span class="temp-unit">°C</span>
+                    </div>
+                    <p class="condition">{{ status }}</p>
+                    <p class="feels-like">Feels like <strong>{{ feels_like }}°C</strong></p>
+                </div>
+            </div>
+
+            <div class="weather-details-grid">
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="detail-content">
+                        <p class="detail-label">Humidity</p>
+                        <p class="detail-value">{{ humidity }}<span class="detail-unit">%</span></p>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+                        </svg>
+                    </div>
+                    <div class="detail-content">
+                        <p class="detail-label">Wind Speed</p>
+                        <p class="detail-value">{{ wind_speed }}<span class="detail-unit">m/s</span></p>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="detail-content">
+                        <p class="detail-label">Temperature</p>
+                        <p class="detail-value">{{ temp }}<span class="detail-unit">°C</span></p>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                        </svg>
+                    </div>
+                    <div class="detail-content">
+                        <p class="detail-label">Feels Like</p>
+                        <p class="detail-value">{{ feels_like }}<span class="detail-unit">°C</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-another">
+                <p class="search-another-title">Search Another City</p>
+                <form action="/weather" method="get" class="search-form compact">
+                    <div class="input-wrapper">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input 
+                            type="text" 
+                            name="city" 
+                            id="city" 
+                            placeholder="Enter city name..."
+                            autocomplete="off"
+                            required
+                        />
+                        <button type="submit" class="inline-submit-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="quick-links">
+                <p class="quick-links-title">Quick Search:</p>
+                <div class="city-tags">
+                    <a href="/weather?city=London" class="city-tag">London</a>
+                    <a href="/weather?city=New York" class="city-tag">New York</a>
+                    <a href="/weather?city=Tokyo" class="city-tag">Tokyo</a>
+                    <a href="/weather?city=Paris" class="city-tag">Paris</a>
+                    <a href="/weather?city=Sydney" class="city-tag">Sydney</a>
+                    <a href="/weather?city=Mumbai" class="city-tag">Mumbai</a>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Powered by OpenWeatherMap API</p>
+        </footer>
+    </div>
+
+    <script>
+        // Add subtle animation on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.detail-card');
+            cards.forEach((card, index) => {
+                card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1}s`;
+                card.style.opacity = '0';
+            });
+        });
+    </script>
+
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</body>
+</html>
